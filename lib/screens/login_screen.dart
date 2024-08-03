@@ -1,4 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ecommerce_app/data/exceptions/firebase_auth_helper_exception.dart';
+import 'package:ecommerce_app/helpers/firebase_auth_helper.dart';
+import 'package:ecommerce_app/helpers/snackbar_helper.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/constants/image_consants.dart';
 import 'package:ecommerce_app/helpers/gap.dart';
@@ -14,6 +17,16 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (kDebugMode) {
+      emailController.text = 'howtodog0147@gmail.com';
+      passwordController.text = 'Qwerty1234';
+      signin(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,8 +92,72 @@ class _LoginScreenState extends State<LoginScreen> {
               ElevatedButton(
                 onPressed: () async {
                   try {
-                    final credential =
-                        FirebaseAuth.instance.createUserWithEmailAndPassword(
+                    await FirebaseAuthHelper.signupWithEmailAndPassword(
+                      emailController.text,
+                      passwordController.text,
+                    );
+                    if (!context.mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBarHelper.successSnackBar(
+                          context, 'Signed up successfully'),
+                    );
+                    if (!context.mounted) return;
+                    await signin(context);
+                  } on FirebaseAuthHelperException catch (fe) {
+                    if (!context.mounted) return;
+                    if (fe.type ==
+                        FirebaseAuthHelperExceptionType.emailAlreadyInUse) {
+                      await signin(context);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBarHelper.errorSnackBar(context, fe.message),
+                      );
+                    }
+                  } catch (e) {
+                    if (kDebugMode) {
+                      print(e);
+                    }
+                  }
+                },
+                child: const Text('Continue'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> signin(BuildContext context) async {
+    try {
+      await FirebaseAuthHelper.signinWithEmailAndPassword(
+        emailController.text,
+        passwordController.text,
+        () {
+          Navigator.pushReplacementNamed(context, RoutePath.home);
+        },
+      );
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBarHelper.successSnackBar(context, 'Signed in successfully'),
+      );
+    } on FirebaseAuthHelperException catch (fe) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBarHelper.errorSnackBar(context, fe.message),
+      );
+    } on Exception catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
+}
+
+
+/*
+try {
+                    FirebaseAuth.instance.createUserWithEmailAndPassword(
                       email: emailController.text,
                       password: passwordController.text,
                     );
@@ -146,13 +223,59 @@ class _LoginScreenState extends State<LoginScreen> {
                         });
                     print(e);
                   }
-                },
-                child: const Text('Continue'),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+*/
+
+/*
+FirebaseAuth.instance
+                      .createUserWithEmailAndPassword(
+                    email: emailController.text,
+                    password: passwordController.text,
+                  )
+                      .then(
+                    (userCredential) {
+                      FirebaseAuthHelper.loginWithEmailAndPassword(
+                        emailController.text,
+                        passwordController.text,
+                        () {
+                          Navigator.pushReplacementNamed(
+                              context, RoutePath.home);
+                        },
+                      );
+                    },
+                  ).catchError(
+                    (error) {
+                      if (error is FirebaseAuthException) {
+                        if (error.code == 'weak-password') {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text('Password is too weak'),
+                                  content: const Text(
+                                      'Please enter a strong password'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              });
+                        } else if (error.code == 'email-already-in-use') {
+                          FirebaseAuthHelper.loginWithEmailAndPassword(
+                            emailController.text,
+                            passwordController.text,
+                            () {
+                              Navigator.pushReplacementNamed(
+                                  context, RoutePath.home);
+                            },
+                          );
+                          print('The account already exists for that email.');
+                        }
+                        print(error.code);
+                      }
+                    },
+                  );
+*/
