@@ -1,0 +1,30 @@
+import 'package:flutter/material.dart';
+import 'package:ecommerce_app/constants/image_consants.dart';
+import 'package:ecommerce_app/theme/theme_builder.dart';
+import 'package:ecommerce_app/routes/route_generator.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    precacheImage(const AssetImage(ImageConstants.backgroundImage), context);
+    precacheImage(const AssetImage(ImageConstants.logoImage), context);
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeBuilder.buildTheme(context, Brightness.light),
+      onGenerateRoute: RoutesGenerator.onGenerateRoute,
+    );
+  }
+}
