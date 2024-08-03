@@ -3,8 +3,8 @@ import 'package:ecommerce_app/helpers/gap.dart';
 import 'package:ecommerce_app/models/category_model.dart';
 import 'package:ecommerce_app/models/product_model.dart';
 import 'package:ecommerce_app/theme/theme_colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,146 +21,147 @@ class _HomeScreenState extends State<HomeScreen> {
     CategoryModel(name: 'Homeo', color: Colors.orange.shade600),
     CategoryModel(name: 'Eye care', color: Colors.blue),
   ];
-
   List<ProductModel> products = [
     ProductModel(
-      name: 'Product 1',
-      details: 'Product 1 details',
-      price: 100,
+      companyName: 'Accu-check Active',
+      name: 'Test Strip',
+      details: '50 Strips in a box for Accu-check Active Glucometer Machine',
+      price: 112,
       image: ImageConstants.productImage,
-      rating: 4.5,
+      rating: 2,
     ),
     ProductModel(
-      name: 'Product 2',
-      details: 'Product 2 details',
-      price: 200,
+      companyName: 'Accu-check Active',
+      name: 'Test Strip',
+      details: '50 Strips in a box for Accu-check Active Glucometer Machine',
+      price: 112,
       image: ImageConstants.productImage,
-      rating: 4.5,
+      rating: 2,
     ),
     ProductModel(
-      name: 'Product 3',
-      details: 'Product 3 details',
-      price: 300,
+      companyName: 'Accu-check Active',
+      name: 'Test Strip',
+      details: '50 Strips in a box for Accu-check Active Glucometer Machine',
+      price: 112,
       image: ImageConstants.productImage,
-      rating: 4.5,
+      rating: 2,
     ),
     ProductModel(
-      name: 'Product 4',
-      details: 'Product 4 details',
-      price: 400,
+      companyName: 'Accu-check Active',
+      name: 'Test Strip',
+      details: '50 Strips in a box for Accu-check Active Glucometer Machine',
+      price: 112,
       image: ImageConstants.productImage,
-      rating: 4.5,
+      rating: 2,
     ),
     ProductModel(
-      name: 'Product 5',
-      details: 'Product 5 details',
-      price: 500,
+      companyName: 'Accu-check Active',
+      name: 'Test Strip',
+      details: '50 Strips in a box for Accu-check Active Glucometer Machine',
+      price: 112,
       image: ImageConstants.productImage,
-      rating: 4.5,
+      rating: 2,
     ),
     ProductModel(
-      name: 'Product 6',
-      details: 'Product 6 details',
-      price: 600,
+      companyName: 'Accu-check Active',
+      name: 'Test Strip',
+      details: '50 Strips in a box for Accu-check Active Glucometer Machine',
+      price: 112,
       image: ImageConstants.productImage,
-      rating: 4.5,
+      rating: 2,
+    ),
+    ProductModel(
+      companyName: 'Accu-check Active',
+      name: 'Test Strip',
+      details: '50 Strips in a box for Accu-check Active Glucometer Machine',
+      price: 112,
+      image: ImageConstants.productImage,
+      rating: 2,
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
+    User currentUser = FirebaseAuth.instance.currentUser!;
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {});
+        },
+      ),
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
-            expandedHeight: 200.0,
-            floating: false,
-            pinned: true,
-            flexibleSpace: FlexibleSpaceBar(
-              background: _topSection(context),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  _topCategoriesHeading(context),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: _topCategories(context),
-                  ),
-                  vGap(10),
-                  Image.asset(
-                    ImageConstants.offerImage,
-                    fit: BoxFit.cover,
-                  ),
-                  _dealOfTheDayHeading(context),
-                ],
-              ),
-            ),
-          ),
-          // AnimationLimiter(
-          //   child: GridView.count(
-          //     crossAxisCount: 2,
-          //     children: List.generate(
-          //       100,
-          //       (int index) {
-          //         return AnimationConfiguration.staggeredGrid(
-          //           position: index,
-          //           duration: const Duration(milliseconds: 375),
-          //           columnCount: 2,
-          //           child: ScaleAnimation(
-          //             child: FadeInAnimation(
-          //               child: ListView.builder(
-          //                 itemCount: products.length,
-          //                 itemBuilder: (context, index) {
-          //                   return ProductCard(product: products[index]);
-          //                 },
-          //               ),
-          //             ),
-          //           ),
-          //         );
-          //       },
-          //     ),
-          //   ),
-          // ),
-          // SliverAnimatedGrid(
-          //   itemBuilder: (context, index, animation) {
-          //     print('Index: $index');
-          //     return FadeTransition(
-          //       opacity: Tween<double>(
-          //         begin: 0,
-          //         end: 1,
-          //       ).animate(animation),
-          //       child: Container(
-          //         width: 50,
-          //         height: 50,
-          //         color: Colors.red,
-          //       ),
-          //     );
-          //   },
-          //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          //     crossAxisCount: 2,
-          //     childAspectRatio: 1,
-
-          //     // mainAxisSpacing: controller.offset,
-          //   ),
-          // )
+          _sliverAppBar(context, currentUser),
+          _sliverContent(context),
+          _sliverProductGrid(),
         ],
       ),
     );
   }
 
-  Widget _topSection(BuildContext context) {
+  SliverAppBar _sliverAppBar(BuildContext context, User currentUser) {
+    return SliverAppBar(
+      expandedHeight: 200.0,
+      // floating: false,
+      pinned: true,
+      bottom: PreferredSize(
+        preferredSize: Size.zero,
+        child: _searchBar(),
+      ),
+      forceMaterialTransparency: true,
+      flexibleSpace: FlexibleSpaceBar(
+        collapseMode: CollapseMode.pin,
+        background:
+            _topSection(context, currentUser.displayName ?? currentUser.email!),
+      ),
+    );
+  }
+
+  SliverToBoxAdapter _sliverContent(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _topCategoriesHeading(context),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: _topCategories(context),
+            ),
+            vGap(10),
+            Image.asset(
+              ImageConstants.offerImage,
+              fit: BoxFit.cover,
+            ),
+            _dealOfTheDayHeading(context),
+          ],
+        ),
+      ),
+    );
+  }
+
+  SliverPadding _sliverProductGrid() {
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      sliver: SliverGrid.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 0.7,
+        ),
+        itemCount: products.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ProductCard(product: products[index]);
+        },
+      ),
+    );
+  }
+
+  Widget _topSection(BuildContext context, String userName) {
     return Stack(
       children: [
         Container(
-          height: 300,
-        ),
-        Container(
-          height: 220,
+          height: 230,
           alignment: Alignment.topCenter,
           clipBehavior: Clip.none,
           decoration: ShapeDecoration(
@@ -190,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Hi, Shahzeb',
+                'Hi, $userName',
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: ThemeColors.getThemeColors(context).white,
                       fontWeight: FontWeight.bold,
@@ -206,31 +207,34 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-        Positioned(
-          left: 20,
-          right: 20,
-          top: 190,
-          child: _searchBar(),
-        ),
+        // Positioned(
+        //   left: 20,
+        //   right: 20,
+        //   top: 190,
+        //   child: _searchBar(),
+        // ),
       ],
     );
   }
 
   Widget _searchBar() {
-    return Material(
-      color: Colors.amber,
-      elevation: 2,
-      borderRadius: BorderRadius.circular(30),
-      child: TextFormField(
-        decoration: const InputDecoration(
-          hintText: 'Search Medicine & Health Products',
-          hintStyle: TextStyle(
-            color: Colors.grey,
-            fontWeight: FontWeight.w100,
-          ),
-          prefixIcon: Icon(
-            Iconsax.search_normal_1_outline,
-            color: Colors.grey,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Material(
+        color: Colors.amber,
+        elevation: 2,
+        borderRadius: BorderRadius.circular(30),
+        child: TextFormField(
+          decoration: const InputDecoration(
+            hintText: 'Search Medicine & Health Products',
+            hintStyle: TextStyle(
+              color: Colors.grey,
+              fontWeight: FontWeight.w100,
+            ),
+            prefixIcon: Icon(
+              Iconsax.search_normal_1_outline,
+              color: Colors.grey,
+            ),
           ),
         ),
       ),
@@ -352,55 +356,106 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(5),
-      // padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade200,
+            blurRadius: 5,
+            spreadRadius: 5,
+          ),
+        ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: Stack(
         children: [
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: const Color(0xFFf6f6f8),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Image.asset(ImageConstants.productImage),
-            ),
-          ),
-          vGap(5),
-          Text(
-            product.name,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w300,
-                ),
-          ),
-          vGap(5),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                'Rs. 100',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w300,
-                    ),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFf6f6f8),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Image.asset(ImageConstants.productImage),
+                ),
               ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Iconsax.heart_outline),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 8,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      product.companyName,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                    vGap(5),
+                    Text(
+                      product.name,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                    vGap(5),
+                    Text(
+                      'Rs. ${product.price.toInt()}',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    vGap(20),
+                  ],
+                ),
               ),
             ],
           ),
-          Text(
-            'Rating: ${product.rating}',
-            style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w300,
+          Positioned(
+            right: 0,
+            bottom: 20,
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 5,
+                vertical: 2,
+              ),
+              decoration: const BoxDecoration(
+                color: Color(0xFFffc000),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  bottomLeft: Radius.circular(15),
                 ),
-          ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.star_rounded,
+                    size: 20,
+                    color: Colors.white,
+                  ),
+                  hGap(2),
+                  Text(
+                    product.rating.toStringAsFixed(1),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );

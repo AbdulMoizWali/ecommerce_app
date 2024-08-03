@@ -1,4 +1,5 @@
 class ProductModel {
+  final String companyName;
   final String name;
   final String details;
   final double price;
@@ -6,6 +7,7 @@ class ProductModel {
   final double rating;
 
   ProductModel({
+    required this.companyName,
     required this.name,
     required this.details,
     required this.price,
