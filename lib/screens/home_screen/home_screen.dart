@@ -1,9 +1,11 @@
 import 'package:ecommerce_app/constants/image_consants.dart';
 import 'package:ecommerce_app/helpers/gap.dart';
 import 'package:ecommerce_app/models/category_model.dart';
+import 'package:ecommerce_app/models/product_model.dart';
 import 'package:ecommerce_app/screens/home_screen/components/category_list_card.dart';
 import 'package:ecommerce_app/theme/theme_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,6 +22,45 @@ class _HomeScreenState extends State<HomeScreen> {
     CategoryModel(name: 'Shoes'),
     CategoryModel(name: 'Furniture'),
   ];
+
+  List<ProductModel> popularProducts = [
+    ProductModel(
+      category: 'Leather Women Bag',
+      name: 'Leather Women Bag',
+      details: '50 Strips in a box for Accu-check Active Glucometer Machine',
+      price: 112,
+      image: Image.asset(ImageConstants.productImage1),
+      totalReviews: 715,
+    ),
+    ProductModel(
+      category: 'Accu-check Active',
+      name: 'Test Strip',
+      details: '50 Strips in a box for Accu-check Active Glucometer Machine',
+      price: 112,
+      image: Image.asset(ImageConstants.productImage2),
+      totalReviews: 379,
+    ),
+  ];
+
+  List<ProductModel> latestProducts = [
+    ProductModel(
+      category: 'Leather Women Bag',
+      name: 'Leather Women Bag',
+      details: '50 Strips in a box for Accu-check Active Glucometer Machine',
+      price: 112,
+      image: Image.asset(ImageConstants.productImage1),
+      totalReviews: 715,
+    ),
+    ProductModel(
+      category: 'Accu-check Active',
+      name: 'Test Strip',
+      details: '50 Strips in a box for Accu-check Active Glucometer Machine',
+      price: 112,
+      image: Image.asset(ImageConstants.productImage2),
+      totalReviews: 379,
+    ),
+  ];
+
   late ThemeColors themeColors;
   int selectedCategory = 0;
 
@@ -27,7 +68,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     themeColors = ThemeColors.getThemeColors(context);
     return Scaffold(
+      backgroundColor: themeColors.whiteSmoke,
       appBar: AppBar(
+        backgroundColor: themeColors.whiteSmoke,
         leading: IconButton(
           onPressed: () {},
           icon: const Icon(Icons.menu),
@@ -49,6 +92,109 @@ class _HomeScreenState extends State<HomeScreen> {
           slivers: [
             _featuredProductSection(context),
             _categoryList(),
+            _popularProductList(),
+            _latestProductHeading(),
+            _latestProductList(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  SliverList _latestProductList() {
+    return SliverList.builder(
+      itemCount: latestProducts.length,
+      itemBuilder: (context, index) {
+        ProductModel product = latestProducts[index];
+        return Card(
+          elevation: 0,
+          color: themeColors.primaryVariantColor,
+          child: ListTile(
+            leading: product.image,
+            title: Text(product.name),
+            subtitle: Text('\$${product.price}'),
+            subtitleTextStyle: TextStyle(
+              color: themeColors.primaryColor,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  '(${product.totalReviews.toStringAsFixed(0)})',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+                hGap(5),
+                const Icon(
+                  EvaIcons.star,
+                  color: Colors.yellow,
+                  size: 18,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  SliverToBoxAdapter _latestProductHeading() {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Latest Products'),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text('See All'),
+                ),
+              ],
+            ),
+            vGap(5),
+          ],
+        ),
+      ),
+    );
+  }
+
+  SliverToBoxAdapter _popularProductList() {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Popular Products'),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text('See All'),
+                ),
+              ],
+            ),
+            vGap(5),
+            SizedBox(
+              height: 264,
+              child: ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: popularProducts.length,
+                itemBuilder: (context, index) {
+                  ProductModel product = popularProducts[index];
+                  return ProductCard(
+                    product: product,
+                  );
+                },
+              ),
+            )
           ],
         ),
       ),
@@ -67,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const Text('Category'),
                 TextButton(
                   onPressed: () {},
-                  child: const Text('View All'),
+                  child: const Text('See All'),
                 ),
               ],
             ),
@@ -153,6 +299,102 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ProductCard extends StatefulWidget {
+  const ProductCard({
+    super.key,
+    required this.product,
+  });
+
+  final ProductModel product;
+
+  @override
+  State<ProductCard> createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
+  late ThemeColors themeColors;
+  @override
+  Widget build(BuildContext context) {
+    themeColors = ThemeColors.getThemeColors(context);
+    return Container(
+      height: 250,
+      width: 170,
+      margin: const EdgeInsets.symmetric(horizontal: 5),
+      decoration: BoxDecoration(
+        color: themeColors.primaryVariantColor,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 5,
+            spreadRadius: 5,
+            color: Colors.grey.shade100,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          UnconstrainedBox(
+            alignment: Alignment.centerRight,
+            child: IconButton(
+              alignment: Alignment.center,
+              onPressed: () {},
+              selectedIcon: Icon(
+                HeroIcons.heart,
+                color: themeColors.red,
+              ),
+              style: IconButton.styleFrom(
+                iconSize: 20,
+              ),
+              icon: Icon(
+                HeroIcons.heart,
+                color: themeColors.white,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                widget.product.image,
+                vGap(5),
+                Text(widget.product.name),
+                vGap(5),
+                Row(
+                  children: [
+                    const Icon(
+                      EvaIcons.star,
+                      color: Colors.yellow,
+                      size: 18,
+                    ),
+                    hGap(5),
+                    Text(
+                      '(${widget.product.totalReviews.toStringAsFixed(0)} reviews)',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ],
+                ),
+                vGap(5),
+                Text(
+                  '\$${widget.product.price.toStringAsFixed(2)}',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: themeColors.primaryColor,
+                    fontSize: 20,
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

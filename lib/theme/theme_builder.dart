@@ -23,7 +23,7 @@ class ThemeBuilder {
         displayColor: themeColors.textColor,
       ),
       iconTheme: IconThemeData(
-        color: themeColors.primaryVariantColor,
+        color: themeColors.primaryColor,
         size: 30,
       ),
       iconButtonTheme: IconButtonThemeData(
