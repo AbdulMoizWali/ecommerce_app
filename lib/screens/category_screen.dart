@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/components/category_card.dart';
 import 'package:ecommerce_app/constants/icon_constants.dart';
 import 'package:ecommerce_app/constants/image_consants.dart';
 import 'package:ecommerce_app/helpers/gap.dart';
@@ -133,70 +134,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
               right: 0,
               bottom: -40,
               child: Image.asset(ImageConstants.homeProductImage),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class CategoryCard extends StatelessWidget {
-  const CategoryCard({
-    super.key,
-    required this.category,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  final CategoryModel category;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    var themeColors = ThemeColors.getThemeColors(context);
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        decoration: BoxDecoration(
-          color: isSelected ? themeColors.primaryColor : themeColors.pureWhite,
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Column(
-          children: [
-            Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                color: isSelected
-                    ? themeColors.primaryVariantColor
-                    : themeColors.white,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Center(
-                child: category.image != null
-                    ? ColorFiltered(
-                        colorFilter: ColorFilter.mode(
-                          isSelected
-                              ? themeColors.pureWhite
-                              : Colors.transparent,
-                          BlendMode.srcATop,
-                        ),
-                        child: Image.asset(
-                          category.image ?? "",
-                        ),
-                      )
-                    : null,
-              ),
-            ),
-            const Spacer(),
-            Text(
-              category.name,
-              style: TextStyle(
-                color: isSelected ? themeColors.pureWhite : null,
-              ),
             ),
           ],
         ),
