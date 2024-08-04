@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/screens/category_screen.dart';
+import 'package:ecommerce_app/screens/popular_product_screen.dart';
 import 'package:ecommerce_app/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/routes/route_path.dart';
@@ -20,6 +21,9 @@ class RoutesGenerator {
 
       case RoutePath.categoryScreen:
         return MaterialPageRoute(builder: (_) => const CategoryScreen());
+
+      case RoutePath.popularProductScreen:
+        return MaterialPageRoute(builder: (_) => const PopularProductScreen());
 
       default:
         return MaterialPageRoute(builder: (_) => const NotFoundScreen());

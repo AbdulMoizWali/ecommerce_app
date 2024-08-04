@@ -177,7 +177,9 @@ class _HomePageState extends State<HomePage> {
               children: [
                 const Text('Popular Products'),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, RoutePath.popularProductScreen);
+                  },
                   child: const Text('See All'),
                 ),
               ],
