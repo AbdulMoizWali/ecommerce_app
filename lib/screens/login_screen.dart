@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
       bottom: 60,
       child: Container(
         decoration: BoxDecoration(
-          color: ThemeColors.getThemeColors(context).primaryVariantColor,
+          color: ThemeColors.getThemeColors(context).pureWhite,
           borderRadius: const BorderRadius.only(
             bottomLeft: Radius.circular(50),
             bottomRight: Radius.circular(50),
@@ -150,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Text(
           'Copyright 2024',
           style: TextStyle(
-            color: ThemeColors.getThemeColors(context).primaryVariantColor,
+            color: ThemeColors.getThemeColors(context).pureWhite,
           ),
         ),
       ),

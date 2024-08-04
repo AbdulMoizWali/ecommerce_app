@@ -34,7 +34,7 @@ class ThemeBuilder {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: themeColors.primaryVariantColor,
+        fillColor: themeColors.pureWhite,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5),
           borderSide: BorderSide(
@@ -53,7 +53,7 @@ class ThemeBuilder {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: themeColors.primaryColor,
-          foregroundColor: themeColors.primaryVariantColor,
+          foregroundColor: themeColors.pureWhite,
           textStyle: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 13,

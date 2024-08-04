@@ -26,7 +26,7 @@ class _ProductCardState extends State<ProductCard> {
       width: 170,
       margin: const EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
-        color: themeColors.primaryVariantColor,
+        color: themeColors.pureWhite,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(

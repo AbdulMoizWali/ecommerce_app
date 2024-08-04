@@ -36,7 +36,7 @@ class CategoryListCard extends StatelessWidget {
         child: Text(
           category.name,
           style: TextStyle(
-            color: categorySelected ? themeColors.primaryVariantColor : null,
+            color: categorySelected ? themeColors.pureWhite : null,
           ),
         ),
       ),

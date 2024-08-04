@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 abstract class ThemeColors {
   Color primaryColor = const Color(0xFFaa14f0);
-  Color primaryVariantColor = const Color(0xFFFFFFFF);
+  Color primaryVariantColor = const Color(0xFFe4abff);
+  Color pureWhite = const Color(0xFFFFFFFF);
   Color white = const Color(0xFFD9D9D9);
   Color whiteSmoke = const Color(0xFFFAFAFA);
   Color blue = const Color(0xFF4a85fd);
@@ -24,7 +25,7 @@ abstract class ThemeColors {
 class LightThemeColors extends ThemeColors {
   LightThemeColors() {
     super.primaryColor = const Color(0xFFaa14f0);
-    super.primaryVariantColor = const Color(0xFFFFFFFF);
+    super.pureWhite = const Color(0xFFFFFFFF);
     super.white = const Color(0xFFD9D9D9);
     super.whiteSmoke = const Color(0xFFFAFAFA);
     super.blue = const Color(0xFF4a85fd);
@@ -38,7 +39,7 @@ class LightThemeColors extends ThemeColors {
 class DarkThemeColors extends ThemeColors {
   DarkThemeColors() {
     super.primaryColor = const Color(0xFF323232);
-    super.primaryVariantColor = const Color(0xFF323235);
+    super.pureWhite = const Color(0xFF323235);
     super.white = const Color(0xFFFFFFFF);
     super.blue = const Color(0xFF4a85fd);
     super.red = const Color(0xFFc42b1c);

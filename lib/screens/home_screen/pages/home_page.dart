@@ -3,6 +3,7 @@ import 'package:ecommerce_app/constants/image_consants.dart';
 import 'package:ecommerce_app/helpers/gap.dart';
 import 'package:ecommerce_app/models/category_model.dart';
 import 'package:ecommerce_app/models/product_model.dart';
+import 'package:ecommerce_app/routes/route_path.dart';
 import 'package:ecommerce_app/screens/home_screen/components/category_list_card.dart';
 import 'package:ecommerce_app/theme/theme_colors.dart';
 import 'package:flutter/material.dart';
@@ -109,7 +110,7 @@ class _HomePageState extends State<HomePage> {
         ProductModel product = latestProducts[index];
         return Card(
           elevation: 0,
-          color: themeColors.primaryVariantColor,
+          color: themeColors.pureWhite,
           child: ListTile(
             leading: product.image,
             title: Text(product.name),
@@ -213,7 +214,9 @@ class _HomePageState extends State<HomePage> {
               children: [
                 const Text('Category'),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, RoutePath.categoryScreen);
+                  },
                   child: const Text('See All'),
                 ),
               ],
@@ -262,7 +265,7 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.all(15),
               child: DefaultTextStyle(
                 style: TextStyle(
-                  color: themeColors.primaryVariantColor,
+                  color: themeColors.pureWhite,
                   fontWeight: FontWeight.bold,
                 ),
                 child: Column(
