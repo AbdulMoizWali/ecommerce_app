@@ -25,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (kDebugMode) {
       emailController.text = 'howtodo0147@gmail.com';
       passwordController.text = 'Qwerty1234';
-      signin(context);
+      // signin(context);
     }
   }
 
