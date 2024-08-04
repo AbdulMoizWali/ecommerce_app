@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class CategoryModel {
   String name;
-  Color color;
+  Widget? image;
   CategoryModel({
     required this.name,
-    required this.color,
+    this.image,
   });
 }

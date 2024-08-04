@@ -28,7 +28,7 @@ class ThemeBuilder {
       ),
       iconButtonTheme: IconButtonThemeData(
         style: IconButton.styleFrom(
-          foregroundColor: themeColors.primaryVariantColor,
+          // foregroundColor: themeColors.primaryVariantColor,
           backgroundColor: Colors.transparent,
         ),
       ),

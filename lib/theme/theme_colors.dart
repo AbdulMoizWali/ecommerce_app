@@ -8,6 +8,7 @@ abstract class ThemeColors {
   Color red = const Color(0xFFc42b1c);
   Color green = const Color(0xFF1dbf73);
   Color textColor = const Color(0xFF000000);
+  Color black = const Color(0xFF000000);
 
   static ThemeColors getThemeColors(BuildContext context) {
     final Brightness brightness = Theme.of(context).brightness;
@@ -28,6 +29,7 @@ class LightThemeColors extends ThemeColors {
     super.red = const Color(0xFFc42b1c);
     super.green = const Color(0xFF1dbf73);
     super.textColor = const Color(0xFF000000);
+    super.black = const Color(0xFF000000);
   }
 }
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ecommerce_app/constants/image_consants.dart';
 import 'package:ecommerce_app/theme/theme_builder.dart';
 import 'package:ecommerce_app/routes/route_generator.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,8 +17,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    precacheImage(const AssetImage(ImageConstants.backgroundImage), context);
-    precacheImage(const AssetImage(ImageConstants.logoImage), context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',

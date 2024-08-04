@@ -2,7 +2,7 @@ import 'package:ecommerce_app/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/routes/route_path.dart';
 import 'package:ecommerce_app/screens/login_screen.dart';
-import 'package:ecommerce_app/screens/home_screen.dart';
+import 'package:ecommerce_app/screens/home_screen/home_screen.dart';
 
 class RoutesGenerator {
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
