@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 abstract class ThemeColors {
-  Color primaryColor = const Color(0xFF4157ff);
-  Color primaryVariantColor = const Color(0xFF0c8ce9);
-  Color white = const Color(0xFFFFFFFF);
+  Color primaryColor = const Color(0xFFaa14f0);
+  Color primaryVariantColor = const Color(0xFFFFFFFF);
+  Color white = const Color(0xFFD9D9D9);
   Color blue = const Color(0xFF4a85fd);
   Color red = const Color(0xFFc42b1c);
   Color green = const Color(0xFF1dbf73);
-  Color textColor = const Color(0xFFb3b5c6);
+  Color textColor = const Color(0xFF000000);
 
   static ThemeColors getThemeColors(BuildContext context) {
     final Brightness brightness = Theme.of(context).brightness;
@@ -21,13 +21,13 @@ abstract class ThemeColors {
 
 class LightThemeColors extends ThemeColors {
   LightThemeColors() {
-    super.primaryColor = const Color(0xFF4157ff);
+    super.primaryColor = const Color(0xFFaa14f0);
     super.primaryVariantColor = const Color(0xFFFFFFFF);
-    super.white = const Color(0xFFFFFFFF);
+    super.white = const Color(0xFFD9D9D9);
     super.blue = const Color(0xFF4a85fd);
     super.red = const Color(0xFFc42b1c);
     super.green = const Color(0xFF1dbf73);
-    super.textColor = const Color(0xFFb3b5c6);
+    super.textColor = const Color(0xFF000000);
   }
 }
 

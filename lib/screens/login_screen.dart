@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/data/exceptions/firebase_auth_helper_exception.dart';
 import 'package:ecommerce_app/helpers/firebase_auth_helper.dart';
 import 'package:ecommerce_app/helpers/snackbar_helper.dart';
+import 'package:ecommerce_app/theme/theme_colors.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/constants/image_consants.dart';
@@ -22,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     if (kDebugMode) {
-      emailController.text = 'howtodog0147@gmail.com';
+      emailController.text = 'howtodo0147@gmail.com';
       passwordController.text = 'Qwerty1234';
       signin(context);
     }
@@ -31,7 +32,138 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: Stack(
+        children: [
+          _background(context),
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 60,
+            child: Container(
+              decoration: BoxDecoration(
+                color: ThemeColors.getThemeColors(context).primaryVariantColor,
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(50),
+                  bottomRight: Radius.circular(50),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Spacer(),
+                    SizedBox(
+                      height: 57,
+                      child: Image.asset(
+                        ImageConstants.logoImage,
+                        alignment: Alignment.centerLeft,
+                      ),
+                    ),
+                    vGap(15),
+                    const Text(
+                      'Email',
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                    vGap(5),
+                    TextFormField(
+                      controller: emailController,
+                      decoration: const InputDecoration(
+                        hintText: 'Reggie James',
+                      ),
+                    ),
+                    vGap(15),
+                    const Text(
+                      'Password',
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                    vGap(5),
+                    TextFormField(
+                      controller: passwordController,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        hintText: '...........',
+                      ),
+                    ),
+                    vGap(15),
+                    ElevatedButton(
+                      onPressed: () async {
+                        await signin(context);
+                      },
+                      child: const Text(
+                        'Sign in',
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                    const Spacer(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Positioned _background(BuildContext context) {
+    return Positioned(
+      left: 0,
+      right: 0,
+      bottom: 0,
+      top: 0,
+      child: Container(
+        color: ThemeColors.getThemeColors(context).primaryColor,
+        alignment: Alignment.bottomCenter,
+        padding: const EdgeInsets.symmetric(
+          vertical: 20,
+        ),
+        child: Text(
+          'Copyright 2024',
+          style: TextStyle(
+            color: ThemeColors.getThemeColors(context).primaryVariantColor,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> signin(BuildContext context) async {
+    try {
+      await FirebaseAuthHelper.signinWithEmailAndPassword(
+        emailController.text,
+        passwordController.text,
+        () {
+          Navigator.pushReplacementNamed(context, RoutePath.home);
+        },
+      );
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBarHelper.successSnackBar(context, 'Signed in successfully'),
+      );
+    } on FirebaseAuthHelperException catch (fe) {
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBarHelper.errorSnackBar(context, fe.message),
+      );
+    } on Exception catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
+}
+
+
+/*
+SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25.0),
           child: Column(
@@ -125,35 +257,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  Future<void> signin(BuildContext context) async {
-    try {
-      await FirebaseAuthHelper.signinWithEmailAndPassword(
-        emailController.text,
-        passwordController.text,
-        () {
-          Navigator.pushReplacementNamed(context, RoutePath.home);
-        },
-      );
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBarHelper.successSnackBar(context, 'Signed in successfully'),
-      );
-    } on FirebaseAuthHelperException catch (fe) {
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBarHelper.errorSnackBar(context, fe.message),
-      );
-    } on Exception catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-    }
-  }
-}
-
+*/
 
 /*
 try {

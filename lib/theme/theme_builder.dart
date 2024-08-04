@@ -30,18 +30,24 @@ class ThemeBuilder {
         style: IconButton.styleFrom(
           foregroundColor: themeColors.primaryVariantColor,
           backgroundColor: Colors.transparent,
-          // fixedSize: const Size.square(60),
-          // shape: RoundedRectangleBorder(
-          //   borderRadius: BorderRadius.circular(10),
-          // ),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: themeColors.primaryVariantColor,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: BorderSide.none,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5),
+          borderSide: BorderSide(
+            color: themeColors.white,
+            style: BorderStyle.solid,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5),
+          borderSide: BorderSide(
+            color: themeColors.white,
+            style: BorderStyle.solid,
+          ),
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -54,7 +60,7 @@ class ThemeBuilder {
           ),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(5),
           ),
         ),
       ),

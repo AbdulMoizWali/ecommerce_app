@@ -1,7 +1,6 @@
+import 'package:ecommerce_app/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/routes/route_path.dart';
-import 'package:ecommerce_app/screens/splash_screen.dart';
-import 'package:ecommerce_app/screens/walkthrough_screen.dart';
 import 'package:ecommerce_app/screens/login_screen.dart';
 import 'package:ecommerce_app/screens/home_screen_2.dart';
 
@@ -9,11 +8,8 @@ class RoutesGenerator {
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     print(settings.name);
     switch (settings.name) {
-      case RoutePath.splash:
-        return MaterialPageRoute(builder: (_) => const SplashScreen());
-
-      case RoutePath.walkthrough:
-        return MaterialPageRoute(builder: (_) => const WalkthroughScreen());
+      case RoutePath.registration:
+        return MaterialPageRoute(builder: (_) => const RegistrationScreen());
 
       case RoutePath.login:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
