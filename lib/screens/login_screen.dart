@@ -35,80 +35,84 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Stack(
         children: [
           _background(context),
-          Positioned(
-            left: 0,
-            right: 0,
-            top: 0,
-            bottom: 60,
-            child: Container(
-              decoration: BoxDecoration(
-                color: ThemeColors.getThemeColors(context).primaryVariantColor,
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(50),
-                  bottomRight: Radius.circular(50),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const Spacer(),
-                    SizedBox(
-                      height: 57,
-                      child: Image.asset(
-                        ImageConstants.logoImage,
-                        alignment: Alignment.centerLeft,
-                      ),
-                    ),
-                    vGap(15),
-                    const Text(
-                      'Email',
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
-                    ),
-                    vGap(5),
-                    TextFormField(
-                      controller: emailController,
-                      decoration: const InputDecoration(
-                        hintText: 'Reggie James',
-                      ),
-                    ),
-                    vGap(15),
-                    const Text(
-                      'Password',
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
-                    ),
-                    vGap(5),
-                    TextFormField(
-                      controller: passwordController,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        hintText: '...........',
-                      ),
-                    ),
-                    vGap(15),
-                    ElevatedButton(
-                      onPressed: () async {
-                        await signin(context);
-                      },
-                      child: const Text(
-                        'Sign in',
-                        style: TextStyle(
-                          fontSize: 15,
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          _loginPageBody(context),
         ],
+      ),
+    );
+  }
+
+  Positioned _loginPageBody(BuildContext context) {
+    return Positioned(
+      left: 0,
+      right: 0,
+      top: 0,
+      bottom: 60,
+      child: Container(
+        decoration: BoxDecoration(
+          color: ThemeColors.getThemeColors(context).primaryVariantColor,
+          borderRadius: const BorderRadius.only(
+            bottomLeft: Radius.circular(50),
+            bottomRight: Radius.circular(50),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Spacer(),
+              SizedBox(
+                height: 57,
+                child: Image.asset(
+                  ImageConstants.logoImage,
+                  alignment: Alignment.centerLeft,
+                ),
+              ),
+              vGap(15),
+              const Text(
+                'Email',
+                style: TextStyle(
+                  fontSize: 15,
+                ),
+              ),
+              vGap(5),
+              TextFormField(
+                controller: emailController,
+                decoration: const InputDecoration(
+                  hintText: 'Reggie James',
+                ),
+              ),
+              vGap(15),
+              const Text(
+                'Password',
+                style: TextStyle(
+                  fontSize: 15,
+                ),
+              ),
+              vGap(5),
+              TextFormField(
+                controller: passwordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  hintText: '...........',
+                ),
+              ),
+              vGap(15),
+              ElevatedButton(
+                onPressed: () async {
+                  await signin(context);
+                },
+                child: const Text(
+                  'Sign in',
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+              const Spacer(),
+            ],
+          ),
+        ),
       ),
     );
   }
