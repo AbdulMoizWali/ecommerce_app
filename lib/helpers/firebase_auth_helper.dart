@@ -6,6 +6,7 @@ class FirebaseAuthHelper {
   static Future<UserCredential?> signupWithEmailAndPassword(
     String email,
     String password,
+    String displayName,
   ) async {
     try {
       final userCredential =
@@ -13,6 +14,7 @@ class FirebaseAuthHelper {
         email: email,
         password: password,
       );
+      await userCredential.user!.updateDisplayName(displayName);
       return userCredential;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
