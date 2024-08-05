@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
       name: 'Leather Women Bag',
       details: '50 Strips in a box for Accu-check Active Glucometer Machine',
       price: 112,
-      image: Image.asset(ImageConstants.productImage1),
+      image: ImageConstants.productImage1,
       totalReviews: 715,
     ),
     ProductModel(
@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
       name: 'Test Strip',
       details: '50 Strips in a box for Accu-check Active Glucometer Machine',
       price: 112,
-      image: Image.asset(ImageConstants.productImage2),
+      image: ImageConstants.productImage2,
       totalReviews: 379,
     ),
   ];
@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
       name: 'Leather Women Bag',
       details: '50 Strips in a box for Accu-check Active Glucometer Machine',
       price: 112,
-      image: Image.asset(ImageConstants.productImage1),
+      image: ImageConstants.productImage1,
       totalReviews: 715,
     ),
     ProductModel(
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
       name: 'Test Strip',
       details: '50 Strips in a box for Accu-check Active Glucometer Machine',
       price: 112,
-      image: Image.asset(ImageConstants.productImage2),
+      image: ImageConstants.productImage2,
       totalReviews: 379,
     ),
   ];
@@ -112,7 +112,7 @@ class _HomePageState extends State<HomePage> {
           elevation: 0,
           color: themeColors.pureWhite,
           child: ListTile(
-            leading: product.image,
+            leading: Image.asset(product.image),
             title: Text(product.name),
             subtitle: Text('\$${product.price}'),
             subtitleTextStyle: TextStyle(

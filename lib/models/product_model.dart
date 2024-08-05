@@ -1,11 +1,9 @@
-import 'package:flutter/material.dart';
-
 class ProductModel {
   final String name;
   final String? category;
   final String details;
   final double price;
-  final Widget image;
+  final String image;
   final double totalReviews;
 
   ProductModel({

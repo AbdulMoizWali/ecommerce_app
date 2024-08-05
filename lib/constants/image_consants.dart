@@ -11,4 +11,5 @@ class ImageConstants {
   static const String productImage6 = 'assets/images/productImage6.jpg';
   static const String productImage7 = 'assets/images/productImage7.jpg';
   static const String productImage8 = 'assets/images/productImage8.jpg';
+  static const String fullProductImage = 'assets/images/fullProductImage.jpg';
 }
