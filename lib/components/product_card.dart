@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/helpers/gap.dart';
 import 'package:ecommerce_app/models/product_model.dart';
+import 'package:ecommerce_app/routes/route_path.dart';
 import 'package:ecommerce_app/screens/product_detail.dart';
 import 'package:ecommerce_app/theme/theme_colors.dart';
 import 'package:flutter/material.dart';
@@ -24,14 +25,10 @@ class _ProductCardState extends State<ProductCard> {
     themeColors = ThemeColors.getThemeColors(context);
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) {
-              return ProductDetail(
-                product: widget.product,
-              );
-            },
-          ),
+        Navigator.pushNamed(
+          context,
+          RoutePath.productDetailScreen,
+          arguments: widget.product,
         );
       },
       child: Container(
@@ -45,7 +42,7 @@ class _ProductCardState extends State<ProductCard> {
             BoxShadow(
               blurRadius: 5,
               spreadRadius: 5,
-              color: Colors.grey.shade100,
+              color: Colors.grey.shade200,
             ),
           ],
         ),
@@ -75,7 +72,11 @@ class _ProductCardState extends State<ProductCard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Image.asset(widget.product.image),
+                  Hero(
+                    tag:
+                        'productDetail-${widget.product.name}-${widget.product.id}',
+                    child: Image.asset(widget.product.image),
+                  ),
                   vGap(5),
                   Text(widget.product.name),
                   vGap(5),
