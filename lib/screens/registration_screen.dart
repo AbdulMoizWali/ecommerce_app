@@ -51,6 +51,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       top: 0,
       bottom: 60,
       child: Container(
+        alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: ThemeColors.getThemeColors(context).pureWhite,
           borderRadius: const BorderRadius.only(
@@ -64,8 +65,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             vertical: 30,
           ),
           child: ListView(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            // crossAxisAlignment: CrossAxisAlignment.stretch,
+            shrinkWrap: true,
             children: [
               SizedBox(
                 height: 57,

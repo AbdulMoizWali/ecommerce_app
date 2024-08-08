@@ -11,5 +11,16 @@ class ImageConstants {
   static const String productImage6 = 'assets/images/productImage6.jpg';
   static const String productImage7 = 'assets/images/productImage7.jpg';
   static const String productImage8 = 'assets/images/productImage8.jpg';
+  static const List<String> productImages = [
+    fullProductImage,
+    productImage1,
+    productImage2,
+    productImage3,
+    productImage4,
+    productImage5,
+    productImage6,
+    productImage7,
+    productImage8,
+  ];
   static const String fullProductImage = 'assets/images/fullProductImage.jpg';
 }

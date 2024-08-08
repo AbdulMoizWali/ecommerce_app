@@ -33,9 +33,10 @@ class _PopularProductScreenState extends State<PopularProductScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         child: CustomScrollView(
+          clipBehavior: Clip.none,
           slivers: [
             SliverGrid.builder(
-              itemCount: popularProducts.length,
+              itemCount: Products.PRODUCTS.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 4 / 6,
@@ -43,8 +44,17 @@ class _PopularProductScreenState extends State<PopularProductScreen> {
                 mainAxisSpacing: 10,
               ),
               itemBuilder: (context, index) {
-                ProductModel product = popularProducts[index];
-                return ProductCard(product: product);
+                ProductModel product = Products.PRODUCTS[index];
+                return ProductCard(
+                  isFavourite: product.isFavorite,
+                  product: product,
+                  onFavoriteTap: (isFavourite) {
+                    setState(() {
+                      // print('isFavourite: $isFavourite');
+                      Products.switchIsFavouriteValue(product);
+                    });
+                  },
+                );
               },
             ),
           ],

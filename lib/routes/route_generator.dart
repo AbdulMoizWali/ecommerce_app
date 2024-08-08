@@ -36,7 +36,7 @@ class RoutesGenerator {
         );
 
       case RoutePath.popularProductScreen:
-        return slidePageRouteBuilder(const PopularProductScreen());
+        return pageRouteBuilder(const PopularProductScreen());
 
       default:
         return slidePageRouteBuilder(const NotFoundScreen());
@@ -44,7 +44,7 @@ class RoutesGenerator {
   }
 
   //fade page route builder
-  static PageRouteBuilder<dynamic> fadePageRouteBuilder(Widget screen) {
+  static Route<dynamic> fadePageRouteBuilder(Widget screen) {
     return PageRouteBuilder(
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return FadeTransition(
@@ -59,8 +59,9 @@ class RoutesGenerator {
   }
 
   //slide page route builder
-  static PageRouteBuilder<dynamic> slidePageRouteBuilder(Widget screen) {
+  static Route<dynamic> slidePageRouteBuilder(Widget screen) {
     return PageRouteBuilder(
+      barrierDismissible: false,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return SlideTransition(
           position: Tween<Offset>(
@@ -77,7 +78,7 @@ class RoutesGenerator {
   }
 
   //page route builder
-  static PageRouteBuilder<dynamic> pageRouteBuilder(Widget screen) {
+  static Route<dynamic> pageRouteBuilder(Widget screen) {
     return PageRouteBuilder(
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return child;

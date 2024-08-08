@@ -1,3 +1,6 @@
+import 'package:ecommerce_app/components/rating_bar.dart';
+import 'package:ecommerce_app/components/rounded_color_selector/rounded_color_selector.dart';
+import 'package:ecommerce_app/data/storage/products.dart';
 import 'package:ecommerce_app/helpers/gap.dart';
 import 'package:ecommerce_app/models/product_model.dart';
 import 'package:ecommerce_app/theme/theme_colors.dart';
@@ -14,6 +17,23 @@ class ProductDetail extends StatefulWidget {
 }
 
 class _ProductDetailState extends State<ProductDetail> {
+  late int productIndex;
+
+  Set<Color> availableColors = {
+    Colors.purple,
+    Colors.blue,
+    Colors.black,
+    Colors.grey,
+  };
+  late Color selectedColor;
+
+  @override
+  void initState() {
+    productIndex = Products.getProductIndexById(widget.product.id);
+    selectedColor = availableColors.first;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var themeColors = ThemeColors.getThemeColors(context);
@@ -22,8 +42,14 @@ class _ProductDetailState extends State<ProductDetail> {
         backgroundColor: themeColors.whiteSmoke,
         actions: [
           IconButton(
-            onPressed: () {},
+            isSelected: Products.PRODUCTS[productIndex].isFavorite,
             icon: const Icon(EvaIcons.heart_outline),
+            selectedIcon: const Icon(EvaIcons.heart),
+            onPressed: () {
+              setState(() {
+                Products.switchIsFavouriteValue(widget.product);
+              });
+            },
           ),
         ],
         title: const Text(
@@ -36,22 +62,87 @@ class _ProductDetailState extends State<ProductDetail> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            CircleAvatar(
-              radius: 100,
-              backgroundImage: AssetImage(widget.product.image),
+            Hero(
+              tag: 'productDetail-${widget.product.name}-${widget.product.id}',
+              child: Container(
+                height: 300,
+                width: 300,
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: Image.asset(
+                  widget.product.image,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
-            vGap(10),
-            Text(
-              widget.product.name,
-              style: const TextStyle(
+            vGap(20),
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.product.name,
+                        style: const TextStyle(
+                          fontSize: 21,
+                        ),
+                      ),
+                      Text(
+                        widget.product.category,
+                        style: const TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
+                      StarRating(
+                        rating: widget.product.rating,
+                        color: Colors.amber,
+                      ),
+                    ],
+                  ),
+                ),
+                Text(
+                  '\$${widget.product.price.toStringAsFixed(2)}',
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: themeColors.primaryColor,
+                  ),
+                ),
+              ],
+            ),
+            vGap(15),
+            const Text(
+              'Color',
+              style: TextStyle(
                 fontSize: 21,
               ),
             ),
-            Text(
-              widget.product.category ?? "",
-              style: const TextStyle(
-                fontSize: 14,
+            vGap(15),
+            RoundedColorSelector(
+              selectedColor: selectedColor,
+              availableColors: availableColors,
+              onColorChange: (Color color) {
+                setState(() {
+                  selectedColor = color;
+                });
+              },
+            ),
+            vGap(15),
+            const Text(
+              'About',
+              style: TextStyle(
+                fontSize: 21,
               ),
+            ),
+            vGap(15),
+            Text(widget.product.details),
+            vGap(15),
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text('Add to Cart'),
             ),
           ],
         ),

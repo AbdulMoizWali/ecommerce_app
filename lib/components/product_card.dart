@@ -1,18 +1,25 @@
+import 'package:ecommerce_app/data/storage/products.dart';
 import 'package:ecommerce_app/helpers/gap.dart';
 import 'package:ecommerce_app/models/product_model.dart';
 import 'package:ecommerce_app/routes/route_path.dart';
-import 'package:ecommerce_app/screens/product_detail.dart';
+
 import 'package:ecommerce_app/theme/theme_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
+typedef OnFavoriteTap = void Function(bool isFavorite);
+
 class ProductCard extends StatefulWidget {
   const ProductCard({
     super.key,
+    required this.isFavourite,
     required this.product,
+    required this.onFavoriteTap,
   });
 
+  final bool isFavourite;
   final ProductModel product;
+  final OnFavoriteTap? onFavoriteTap;
 
   @override
   State<ProductCard> createState() => _ProductCardState();
@@ -20,9 +27,20 @@ class ProductCard extends StatefulWidget {
 
 class _ProductCardState extends State<ProductCard> {
   late ThemeColors themeColors;
+  // bool isFavourite = false;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   isFavourite = widget.product.isFavorite;
+  // }
+
   @override
   Widget build(BuildContext context) {
     themeColors = ThemeColors.getThemeColors(context);
+    print(
+        '${widget.product.id} : ${widget.product.name} : ${widget.product.isFavorite}');
+
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(
@@ -52,8 +70,17 @@ class _ProductCardState extends State<ProductCard> {
             UnconstrainedBox(
               alignment: Alignment.centerRight,
               child: IconButton(
+                isSelected: widget.product.isFavorite,
                 alignment: Alignment.center,
-                onPressed: () {},
+                onPressed: () {
+                  // setState(
+                  //   () {
+                  //     isFavourite = !isFavourite;
+                  //     Products.switchIsFavouriteValue(widget.product);
+                  //   },
+                  // );
+                  widget.onFavoriteTap?.call(!widget.product.isFavorite);
+                },
                 selectedIcon: Icon(
                   HeroIcons.heart,
                   color: themeColors.red,
@@ -75,7 +102,10 @@ class _ProductCardState extends State<ProductCard> {
                   Hero(
                     tag:
                         'productDetail-${widget.product.name}-${widget.product.id}',
-                    child: Image.asset(widget.product.image),
+                    child: SizedBox(
+                      height: 120,
+                      child: Image.asset(widget.product.image),
+                    ),
                   ),
                   vGap(5),
                   Text(widget.product.name),

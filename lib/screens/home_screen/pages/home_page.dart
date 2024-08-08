@@ -1,13 +1,15 @@
 import 'package:ecommerce_app/components/product_card.dart';
 import 'package:ecommerce_app/constants/image_consants.dart';
+import 'package:ecommerce_app/data/storage/categories.dart';
+import 'package:ecommerce_app/data/storage/products.dart';
 import 'package:ecommerce_app/helpers/gap.dart';
 import 'package:ecommerce_app/models/category_model.dart';
 import 'package:ecommerce_app/models/product_model.dart';
 import 'package:ecommerce_app/routes/route_path.dart';
 import 'package:ecommerce_app/screens/home_screen/components/category_list_card.dart';
+import 'package:ecommerce_app/screens/home_screen/components/latest_product_card.dart';
 import 'package:ecommerce_app/theme/theme_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:icons_plus/icons_plus.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,54 +19,27 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<CategoryModel> categories = [
-    CategoryModel(name: 'All'),
-    CategoryModel(name: 'Electronic'),
-    CategoryModel(name: 'Fashion'),
-    CategoryModel(name: 'Shoes'),
-    CategoryModel(name: 'Furniture'),
-  ];
-
-  List<ProductModel> popularProducts = [
-    ProductModel(
-      category: 'Leather Women Bag',
-      name: 'Leather Women Bag',
-      details: '50 Strips in a box for Accu-check Active Glucometer Machine',
-      price: 112,
-      image: ImageConstants.productImage1,
-      totalReviews: 715,
-    ),
-    ProductModel(
-      category: 'Accu-check Active',
-      name: 'Test Strip',
-      details: '50 Strips in a box for Accu-check Active Glucometer Machine',
-      price: 112,
-      image: ImageConstants.productImage2,
-      totalReviews: 379,
-    ),
-  ];
-
-  List<ProductModel> latestProducts = [
-    ProductModel(
-      category: 'Leather Women Bag',
-      name: 'Leather Women Bag',
-      details: '50 Strips in a box for Accu-check Active Glucometer Machine',
-      price: 112,
-      image: ImageConstants.productImage1,
-      totalReviews: 715,
-    ),
-    ProductModel(
-      category: 'Accu-check Active',
-      name: 'Test Strip',
-      details: '50 Strips in a box for Accu-check Active Glucometer Machine',
-      price: 112,
-      image: ImageConstants.productImage2,
-      totalReviews: 379,
-    ),
-  ];
-
   late ThemeColors themeColors;
-  int selectedCategory = 0;
+  CategoryModel selectedCategory = CATEGORIES[0];
+  List<ProductModel> get popularProducts {
+    var popularList = Products.PRODUCTS;
+    popularList.sort((a, b) => b.viewCount.compareTo(a.viewCount));
+    return popularList.sublist(0, 4);
+  }
+
+  late List<ProductModel> latestProducts;
+
+  @override
+  void initState() {
+    super.initState();
+
+    latestProducts = Products.PRODUCTS;
+    latestProducts.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    latestProducts = latestProducts.where((product) {
+      var isInPoPularProducts = popularProducts.contains(product) == true;
+      return !isInPoPularProducts;
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +66,7 @@ class _HomePageState extends State<HomePage> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: CustomScrollView(
+          clipBehavior: Clip.none,
           slivers: [
             _featuredProductSection(context),
             _categoryList(),
@@ -108,37 +84,7 @@ class _HomePageState extends State<HomePage> {
       itemCount: latestProducts.length,
       itemBuilder: (context, index) {
         ProductModel product = latestProducts[index];
-        return Card(
-          elevation: 0,
-          color: themeColors.pureWhite,
-          child: ListTile(
-            leading: Image.asset(product.image),
-            title: Text(product.name),
-            subtitle: Text('\$${product.price}'),
-            subtitleTextStyle: TextStyle(
-              color: themeColors.primaryColor,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  '(${product.totalReviews.toStringAsFixed(0)})',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-                hGap(5),
-                const Icon(
-                  EvaIcons.star,
-                  color: Colors.yellow,
-                  size: 18,
-                ),
-              ],
-            ),
-          ),
-        );
+        return LatestProductCard(product: product);
       },
     );
   }
@@ -171,6 +117,7 @@ class _HomePageState extends State<HomePage> {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -178,7 +125,8 @@ class _HomePageState extends State<HomePage> {
                 const Text('Popular Products'),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, RoutePath.popularProductScreen);
+                    Navigator.pushNamed(
+                        context, RoutePath.popularProductScreen);
                   },
                   child: const Text('See All'),
                 ),
@@ -188,13 +136,21 @@ class _HomePageState extends State<HomePage> {
             SizedBox(
               height: 264,
               child: ListView.builder(
+                clipBehavior: Clip.none,
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 itemCount: popularProducts.length,
                 itemBuilder: (context, index) {
                   ProductModel product = popularProducts[index];
                   return ProductCard(
+                    isFavourite: product.isFavorite,
                     product: product,
+                    onFavoriteTap: (isFavourite) {
+                      setState(() {
+                        Products.switchIsFavouriteValue(product);
+                        // print('isFavourite: $isFavourite');
+                      });
+                    },
                   );
                 },
               ),
@@ -206,6 +162,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   SliverToBoxAdapter _categoryList() {
+    var topCategories = CATEGORIES.sublist(0, 5);
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -229,16 +186,16 @@ class _HomePageState extends State<HomePage> {
               child: ListView.builder(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-                itemCount: categories.length,
+                itemCount: topCategories.length,
                 itemBuilder: (context, index) {
-                  CategoryModel category = categories[index];
+                  CategoryModel category = topCategories[index];
                   return CategoryListCard(
                     onTap: () {
                       setState(() {
-                        selectedCategory = index;
+                        selectedCategory = CATEGORIES[index];
                       });
                     },
-                    categorySelected: selectedCategory == index,
+                    categorySelected: selectedCategory == category,
                     themeColors: themeColors,
                     category: category,
                   );

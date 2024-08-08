@@ -1,6 +1,6 @@
 import 'package:ecommerce_app/components/category_card.dart';
-import 'package:ecommerce_app/constants/icon_constants.dart';
 import 'package:ecommerce_app/constants/image_consants.dart';
+import 'package:ecommerce_app/data/storage/categories.dart';
 import 'package:ecommerce_app/helpers/gap.dart';
 import 'package:ecommerce_app/models/category_model.dart';
 import 'package:ecommerce_app/theme/theme_colors.dart';
@@ -19,20 +19,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<CategoryModel> categories = [
-      CategoryModel(name: 'Bag', image: IconConstants.bag),
-      CategoryModel(name: 'Watch', image: IconConstants.watch),
-      CategoryModel(name: 'Shoes', image: IconConstants.shoes),
-      CategoryModel(name: 'Jewelry', image: IconConstants.jewelry),
-      CategoryModel(name: 'Sports', image: IconConstants.sports),
-      CategoryModel(name: 'Music', image: IconConstants.music),
-      CategoryModel(name: 'Gift', image: IconConstants.gift),
-      CategoryModel(name: 'Plant', image: IconConstants.plant),
-      CategoryModel(name: 'Phone', image: IconConstants.phone),
-      CategoryModel(name: 'Furniture', image: IconConstants.furniture),
-      CategoryModel(name: 'Cosmetics', image: IconConstants.cosmetic),
-      CategoryModel(name: 'Hobby', image: IconConstants.hobby),
-    ];
     themeColors = ThemeColors.getThemeColors(context);
     return Scaffold(
       backgroundColor: themeColors.whiteSmoke,
@@ -57,14 +43,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
             SliverPadding(
               padding: const EdgeInsets.symmetric(vertical: 20),
               sliver: SliverGrid.builder(
-                itemCount: categories.length,
+                itemCount: CATEGORIES.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10,
                 ),
                 itemBuilder: (context, index) {
-                  CategoryModel category = categories[index];
+                  CategoryModel category = CATEGORIES[index];
                   return CategoryCard(
                     category: category,
                     isSelected: selectedCategory == index,
